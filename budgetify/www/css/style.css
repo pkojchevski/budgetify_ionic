@@ -1,0 +1,392 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+@font-face {
+   font-family: 'Material Icons';
+   font-style: normal;
+   font-weight: 400;
+   src: url(iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
+   src: local('Material Icons'),
+        local('MaterialIcons-Regular'),
+        url(iconfont/MaterialIcons-Regular.woff2) format('woff2'),
+        url(iconfont/MaterialIcons-Regular.woff) format('woff'),
+        url(iconfont/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+svg {
+  border:1px solid blue;
+  border-radius:5px;
+}
+
+.money {
+	color:white;
+}
+
+.colorlist {
+  background-color:#E6E6FA;
+}
+
+.money-badge {
+  padding:1%;
+  border-radius: 5px;
+  font-weight: bold;
+  flex-basis:25%;
+  cursor:pointer;
+}
+
+.delete-records {
+  flex-basis: 10%;
+}
+
+.item-text-center :hover {
+  cursor:pointer;
+}
+
+a.icon_calendar {
+  font-size:25px;
+  padding:5px;
+}
+
+.selectbox {
+  max-width:40% !important;
+}
+
+.item-text-center
+{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width:80%;
+}
+
+.record-text {
+   flex-basis:70%;
+   font-size: 20px;
+}
+
+
+.flex-center {
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  align-items: center;
+  display:flex;
+  font-size:15px;
+  font-weight: bold;
+}
+
+.minus {
+  color:white;
+  background-color:red;
+  border-radius: 5px;
+  padding:2px;
+}
+
+.plus {
+  color:white;
+  background-color:green;
+  border-radius: 5px;
+  padding:2px;
+}
+
+.exclamation {
+  color:white;
+  background-color:orange;
+  border-radius: 5px;
+  padding:2px;
+}
+
+
+.bg-green {
+  background-color:green;
+}
+
+.bg-red {
+   background-color:red;
+}
+
+.list-color {
+  background-color: lightblue;
+}
+
+
+.value {
+  display:inline;
+  float:right;
+}
+
+.imgSelected {
+   width:25px;
+   height:25px;
+   border-style: none;
+}
+
+IMG[src=''], IMG:not([src])      
+{opacity:0;}
+
+
+.image {
+  width:20px;
+  height:20px;
+  margin-right:15px;
+  text-align:center;
+  border-radius:3px;
+  border-color:black;
+}
+
+.animated {
+  transform:translateZ(0);
+  animation: zoom ease-out 1s;
+  z-index:1;
+  transition: all 1s ease-out;
+}
+
+#loading-bar .bar {
+  position: relative;
+  top:45%;
+}
+
+.user {
+/*font-size: 10px;*/
+  line-height: 20px;
+}
+
+.usericon {
+    display: block;
+  font-size: 10px;
+  margin-bottom: 3px !important;
+}
+
+.user:hover {
+  cursor:pointer;
+}
+
+.sync {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
+  }
+
+.material-icons {
+  color:black;
+  max-width:50%;
+}
+
+
+-webkit-@keyframes zoom {
+  0% {transform: scale(1);}
+  25% {transform: scale(1.5);}
+  50% {transform: scale(2);}
+  75% {transform: scale(6);}
+  85% {transform: scale(8);}
+  95% {transform: scale(9);}
+  96% {transform: scale(9);}
+  97% {transform: scale(9);}
+  100% {transform: scale(10);}
+}
+
+@keyframes zoom {
+    0% {transform: scale(1);}
+  25% {transform: scale(1.5);}
+  50% {transform: scale(2);}
+  75% {transform: scale(6);}
+  85% {transform: scale(8);}
+  95% {transform: scale(9);}
+  96% {transform: scale(9);}
+  97% {transform: scale(9);}
+  100% {transform: scale(10);}
+}
+ 
+.calc {
+  font-weight:bold;
+  font-size:30px;
+  color:#fff;
+  text-decoration:none;
+  text-transform:uppercase;
+  text-align:center;
+  vertical-align: middle;
+  /*text-shadow:1px 1px 0px #07526e;*/
+  padding-top:6px;
+  margin-left:auto;
+  margin-right:auto;
+  cursor:pointer;
+  border: none;
+  background: #109bce;
+  /*background-image: linear-gradient(bottom, rgb(14,137,182) 0%, rgb(22,179,236) 100%);*/
+  border-radius: 5px;
+  /*box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #07526e, 0px 10px 5px #999;*/
+}
+
+.calc:active {
+  top:3px;
+  /*box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #07526e, 0px 5px 3px #999;*/
+}
+
+
+.header, .footer {
+  background-color: #009688;
+}
+
+.header .title, .header .button,.footer .title, .footer .button {
+  color: #ffffff;
+}
+
+.ionic_datepicker_modal .footer .button-block {
+  margin: 0;
+}
+
+.ionic_datepicker_modal .calendar_grid .dates .today {
+  background-color:MediumTurquoise;
+  border-radius:20px !important;
+}
+
+
+.ionic_datepicker_modal .col_date:hover {
+  color: black;
+  cursor:pointer;
+}
+
+.ionic_datepicker_modal .pointer_events_none {
+  pointer-events: none;
+  color: #aaaaaa !important;
+}
+
+.ionic_datepicker_modal .select_section {
+  padding: 1px 5px;
+}
+
+
+.ionic_datepicker_modal .month_select, .ionic_datepicker_modal .year_select {
+  border: none;
+  border-bottom: 1px solid #009688;
+  padding: 0;
+}
+
+.ionic_datepicker_modal .month_select .input-label, .ionic_datepicker_modal .year_select .input-label {
+  padding: 2px 0;
+  width: 0;
+}
+
+.ionic_datepicker_modal .month_select select, .ionic_datepicker_modal .year_select select {
+  left: 10px;
+  border: none;
+  padding: 0 10px;
+}
+
+.ionic_datepicker_modal .month_select:after, .ionic_datepicker_modal .year_select:after {
+  right: 5px;
+  color: #009688;
+}
+
+.ionic_datepicker_modal .col_week {
+  color:blue;
+  cursor:pointer;
+}
+
+
+.ionic_datepicker_modal .col_week:hover {
+  color:red;
+  background-color:blue;
+}
+
+.ionic_datepicker_modal .calendar_grid .dates {
+  vertical-align: middle;
+  height:50px;
+  font-size:20px;
+  padding-top: 8px;
+}
+
+.ionic_datepicker_modal .calendar_grid .dates .col_date {
+  vertical-align: center;
+  margin:2px;
+
+}
+
+.ionic_datepicker_modal .calendar_grid .dates .addsquare {
+  border: 1px solid #009688;
+  border-radius:2px;
+}
+
+.ionic_datepicker_modal .calendar_grid .dates .col_date:hover {
+  color:#009688;
+  font-size:25px;
+}
+
+[animate-model-change] {
+  trnsform:translateZ(0);
+  transition:0.5s;
+}
+
+.ionic_datepicker_modal .animateClass {
+/*  font-size:45px;*/
+  transform: translateZ(0);
+  transform: scale(2)
+}
+
+.ionic_datepicker_modal .footer .center {
+  text-align:center !important;
+}
+
+.ionic_datepicker_modal .footer .button-bar.button-bar-inline {
+  float:none !important;
+}
+
+.ionic_datepicker_modal .footer .button.button-clear {
+  width:20% !important;
+  font-size: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

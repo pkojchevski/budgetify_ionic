@@ -1,0 +1,216 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <link rel="stylesheet" href="demos.css" type="text/css" media="screen" />
+
+    <script src="../libraries/RGraph.svg.common.core.js" ></script>
+    <script src="../libraries/RGraph.svg.hbar.js" ></script>
+    
+
+    <title>RGraph demo: An orange/blue SVG Bar chart</title>
+    
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="description" content="An orange/blue SVG Bar chart" />
+</head>
+<body>
+
+
+
+    <h1>An orange/blue SVG Bar chart</h1>
+
+    
+    <div style="width: 850px; height: 500px; border: 1px solid #eee" id="chart-container"></div>
+
+
+
+        <div id="fb-root"></div>
+    <script>
+        function loadFB (d)
+        {
+            var js, fjs = document.getElementsByTagName('script')[0];
+            if (document.getElementById('facebook-jssdk')) {
+                return;
+            }
+            
+            js     = document.createElement('script');
+            js.id  = 'facebook-jssdk';
+            js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8";
+            
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+        
+        
+        setTimeout(loadFB, 1500);
+    </script>
+    
+    <style>
+        div#sharePopup {
+            display: inline-block;
+            color: white;
+            z-index: 2;
+            min-width: 575px;
+            height: 40px;
+            margin-left: 200px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            box-shadow: 1px -1px 2px #aaa;
+            background-color: rgba(0,0,0,0.75);
+            text-align: center;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+    
+        div#sharePopup span#label {
+            position: relative;
+            top: 5px;
+        }
+        
+        div#sharePopup div.fb-like {
+            text-align: center;
+            display: inline-block;
+            position: relative;
+            top: 4px;
+        }
+    </style>
+    
+    <div id="sharePopup">
+        <span id="label">If you like RGraph please share it:</span>
+        <span style="display: inline-block; min-width: 225px">
+            <div class="fb-like" data-href="https://www.rgraph.net" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+            <a href="javascript: null" onclick="window.open('http://www.twitter.com/share?url=https://www.rgraph.net&text=HTML5%20charts%20for%20the%20web%20with%20@_RGraph%20', 'twitter-sharer-window', 'top=50,left=50,width=700,height=300')"><img src="/images/twitter-60x20.png"  style="transform: translate(10px, 8px); box-shadow: 1px 1px 1px gray" border="0" /></a>
+        </span>
+    </div>
+
+    <script>
+        new RGraph.SVG.HBar({
+            id: 'chart-container',
+            data: [[-.27,-.21],[.06,.07],[0,.07],[.03,.03],[.03,.05],[.04,.06],[-.31,.38],[.09,.08],[-.02,.10],[.12,.11],[.22,.32],[.12,.1]],
+            options: {
+                gutterBottom: 40,
+                hmargin: 20,
+                yaxisLabels: [
+                    'Food and non-alcoholic beverages',
+                    'Alcohol and tobacco',
+                    'Clothing and footwear',
+                    'Housing and household services',
+                    'Furniture and household goods',
+                    'Health',
+                    'Transport',
+                    'Communication',
+                    'Recreation and culture',
+                    'Education',
+                    'Restaurants and hotels',
+                    'Miscellaneous goods and services'
+                ],
+                title: 'Contributions to the CPI 12-month rate: November 2015 and November 2016',
+                yaxisColor: '#aaa',
+                xaxisMin: 'mirror',
+                xaxisMax: .5,
+                xaxisDecimals: 1,
+                xaxisLabelsCount: 10,
+                backgroundGridHlines: false,
+                backgroundGridBorder: false,
+                xaxis: false,
+                textColor: 'gray',
+                textSize: 9,
+                colors: ['#274796','#F5942F'],
+                titleColor: 'gray',
+                vmargin: 5,
+                attributionX: 5,
+                attributionY: '-5',
+                attributionHalign: 'left',
+                attributionValign: 'bottom'
+            }
+        }).on('draw', function (obj)
+        {
+            var prop = obj.properties;
+
+            RGraph.SVG.text({
+                object: obj,
+                text:   'Percentage points %',
+                x:     840,
+                y:      obj.height - 5,
+                halign: 'right',
+                valign: 'bottom',
+                font:   prop.xaxisTextFont   || prop.textFont,
+                size:   prop.xaxisTextSize   || prop.textSize,
+                bold:   prop.xaxisTextBold   || prop.textBold,
+                italic: prop.xaxisTextItalic || prop.textItalic,
+                color:  prop.xaxisTextColor  || prop.textColor
+            });
+        }).grow();
+    </script>
+
+
+
+    <p></p>
+
+    This goes in the documents header:
+    <pre class="code">
+&lt;script src="RGraph.svg.common.core.js"&gt;&lt;/script&gt;
+&lt;script src="RGraph.svg.hbar.js"&gt;&lt;/script&gt;
+</pre>
+    
+    Put this where you want the chart to show up:
+    <pre class="code">
+&lt;div style="padding: 15px"&gt;
+    &lt;div style="width: 850px; height: 500px" id="chart-container"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+    This is the code that generates the chart:
+    <pre class="code">
+&lt;script&gt;
+    new RGraph.SVG.HBar({
+        id: 'chart-container',
+        data: [[-.27,-.21],[.06,.07],[0,.07],[.03,.03],[.03,.05],[.04,.06],[-.31,.38],[.09,.08],[-.02,.10],[.12,.11],[.22,.32],[.12,.1]],
+        options: {
+            hmargin: 20,
+            yaxisLabels: [
+                'Food and non-alcoholic beverages',
+                'Alcohol and tobacco',
+                'Clothing and footwear',
+                'Housing and household services',
+                'Furniture and household goods',
+                'Health',
+                'Transport',
+                'Communication',
+                'Recreation and culture',
+                'Education',
+                'Restaurants and hotels',
+                'Miscellaneous goods and services'
+            ],
+            title: 'Contributions to the CPI 12-month rate: November 2015 and November 2016',
+            yaxisColor: '#aaa',
+            xaxisMin: 'mirror',
+            xaxisMax: .5,
+            xaxisDecimals: 1,
+            xaxisLabelsCount: 10,
+            backgroundGridHlines: false,
+            backgroundGridBorder: false,
+            xaxis: false,
+            textColor: 'gray',
+            textSize: 9,
+            colors: ['#274796','#F5942F'],
+            titleColor: 'gray',
+            vmargin: 5,
+            attributionX: 5,
+            attributionY: '-5',
+            attributionHalign: 'left',
+            attributionValign: 'bottom'
+        }
+    }).grow();
+&lt;/script&gt;
+</pre>
+
+
+
+    
+    
+
+    <p>
+        <a href="./#svg">&laquo; Back</a>
+    </p>
+
+</body>
+</html>

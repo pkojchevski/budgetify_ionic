@@ -1,0 +1,38 @@
+<ion-view name="login-view">
+  <ion-content class="padding">
+   <form name='loginForm' ng-submit='login(credentials)' novalidate>
+      <div style='color:maroon' ng-show="loginError">{{loginError}}</div>
+     <div class="list">
+      <label class="item item-input">
+        <i class="icon ion-person placeholder-icon"></i>
+        <input name = 'username' type="text" placeholder="{{'Username' | translate}}" ng-model="credentials.username"
+        autocapitalize = 'off' required="">
+      </label>
+      <div ng-messages="loginForm.username.$error" 
+          ng-show="loginForm.username.$invalid && loginForm.username.$touched"
+          style='color:maroon'>
+        <div ng-message="required">{{'Please add username' | translate}}</div>
+      </div>
+      <label class="item item-input">
+         <i class="icon ion-locked placeholder-icon"></i>
+        <input name = 'password' type="password" placeholder="{{'Password' | translate}}" ng-model="credentials.password"
+          autocapitalize='off' ng-minlenght='6' required>
+      </label>
+      <div ng-messages="loginForm.password.$error" ng-show="loginForm.password.$invalid && loginForm.password.$touched " style='color:maroon'>
+        <div ng-message="required">{{"Sorry, can't let you in without a password." | translate}}</div>
+        <div ng-message="minlength">{{'At least 6 characters required.' | translate}}</div>
+      </div>
+    </div>
+
+    <div class='padding'>
+      <button type='submit' class="button button-block button-calm" ng-disabled="loginForm.$invalid">
+          {{'Login' | translate}}
+      </button>
+      <button class="button button-block button-calm" ng-click='open()'>
+          {{'Register' | translate}}
+      </button>
+    </div>
+
+   </form> 
+  </ion-content>
+</ion-view>

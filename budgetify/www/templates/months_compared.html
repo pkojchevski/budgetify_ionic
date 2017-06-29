@@ -1,0 +1,40 @@
+<ion-modal-view>
+    <ion-header-bar class="header">
+     <h1 class="title">{{'compare_month' | translate}}</h1>
+      <button class = 'button button-assertive button-icon ion-close-circled' ng-click='closeMonthsModal()'></button>
+   </ion-header-bar>
+       <ion-content>
+       <ion-list class='list'>
+          <div class='row item item-divider'>
+            <div class='col-25 text-center'>
+              {{'Category' | translate}}
+            </div>
+            <div class='col-25 text-center'>
+              {{firstMonth.monthname | translate}}
+            </div>
+            <div class='col-25 text-center'>
+              {{secondMonth.monthname | translate}}
+            </div>
+            <div class='col-25 text-center'>
+            <i class="material-icons">functions</i>
+            </div>
+        </div>
+        <ion-item class="item" ng-repeat = 'clist in comparedList track by $index'>
+        <div class='row'>
+          <div class='col-25 text-center'>
+           <img class='image' src = {{clist.img}}>
+          </div>
+          <div class = 'col-25 text-center'>
+            {{::clist.value | nfcurrency}}</span>
+          </div>
+          <div class = 'col-25 text-center'>
+            {{::clist.value2 | currency}}</span> 
+          </div>
+          <div class = 'col-25 text-center'>
+            {{::clist.delta | nfcurrency}}
+          </div>
+        </div>
+        </ion-item>
+    </ion-list>
+   </ion-content>
+</ion-modal-view>

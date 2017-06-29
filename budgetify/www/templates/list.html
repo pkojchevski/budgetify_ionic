@@ -1,0 +1,25 @@
+
+<ion-view>
+  <ion-content class="padding">
+     <strong>{{selectedDate}}</strong>
+   <ion-list class='list'>
+        <ion-item class="item item-avatar-left colorlist" ng-repeat= 'l in records track by $index'>
+          <img class='image' src={{l.img}} ng-click='openItem(l)'>
+          <div class='item-text-center'>  
+           <div class='record-text'>
+             <div ng-click='openItem(l)'>{{::l.name | translate}}</div>
+             <div ng-show="period ==='day'" ng-click='openItem(l)'><h3>{{::l.details}}</h3></div>
+           </div>
+           <div class='money-badge text-center'  ng-class="{'bg-green':l.income, 'bg-red':!l.income}" ng-click='openItem(l)'>
+            <span class='money'>{{::l.value | nfcurrency}}</span>
+           </div>
+            <a ng-show="period ==='day' || period === 'today'" class='button button-icon ion-trash-a
+             delete-records' ng-click='deleteItem(l)'>
+            </a>
+          </div>  
+        </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
+
+

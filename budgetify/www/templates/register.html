@@ -1,0 +1,78 @@
+<ion-modal-view view-title="SignUp" name="login-view">
+  <ion-header-bar class="header">
+    <h1 class="title" animate-model-change model="{{$root.selection.date}}">Register</h1>
+    <button class = 'button button-assertive button-icon ion-close-circled' ng-click='close()'></button>
+  </ion-header-bar>
+  <ion-content class="padding">
+
+    <form name='signUpForm' ng-submit='register(user)' novalidate>
+
+      <div style='color:maroon' ng-show="signUpError">{{signUpError}}</div>
+
+     <div class="list">
+
+      <label class="item item-input">
+        <input name = 'name' type="text" placeholder="{{'Name' | translate}}" ng-model="user.name"
+        autocapitalize = 'off' required>
+      </label>
+      <div ng-messages="signUpForm.name.$error" ng-show="signUpForm.name.$invalid && signUpForm.name.$touched"
+          style='color:maroon'>
+      <div ng-message="required">{{'Required.' | translate}}</div>
+      </div>
+
+      <label class="item item-input">
+        <input name = 'username' type="text" placeholder="{{'Username' | translate}}" ng-model="user.username"
+        autocapitalize = 'off' required ng-minlength="6" ng-maxlength="16" 
+        ng-pattern="/^[a-z0-9_-]{6,16}$/" 
+        ng-model-options="{ updateOn: 'default blur', debounce: { default: 2000, blur: 0 } }" check-username>
+      </label>
+      <div ng-messages="signUpForm.username.$error" 
+          ng-show="signUpForm.username.$invalid && signUpForm.username.$touched"
+          style='color:maroon'>
+        <div ng-message="required">{{'Required.' | translate}}</div>
+        <div ng-message="minlength">{{'At least 6 characters required.' | translate}}</div>
+        <div ng-message="maxlength">{{'No more than 16 characters.' | translate}}</div>
+        <div ng-message="pattern">{{'Illegal characters detected.' | translate}}</div>
+        <div ng-message="checkUsername">{{'Username is already taken.' | translate}}</div>
+      </div>
+
+      <label class="item item-input">
+        <input name = 'email' type="email" placeholder="{{'Email' | translate}}" ng-model="user.email"
+        autocapitalize = 'off' required check-email ng-model-options="{ updateOn: 'default blur', debounce: { default: 2000, blur: 0 } }">
+      </label>
+      <div ng-messages="signUpForm.email.$error" 
+          ng-show="signUpForm.email.$invalid && signUpForm.email.$touched"
+          style='color:maroon'>
+        <div ng-message="required">{{'Required.' | translate}}</div>
+        <div ng-message="email">{{'Not a valid email.' | translate}}</div>
+        <div ng-message="checkEmail">{{'Email is already in use.' | translate}}</div>
+      </div>
+
+      <label class="item item-input">
+        <input name = 'password' type="password" placeholder="{{'Password' | translate}}" ng-model="user.password"
+          autocapitalize='off' ng-minlength='6' required>
+      </label>
+      <div ng-messages="signUpForm.password.$error" ng-show="signUpForm.password.$invalid && signUpForm.password.$touched " style='color:maroon'>
+        <div ng-message="required">{{"Sorry, can't let you in without a password." | translate}}</div>
+        <div ng-message="minlength">{{'At least 6 characters required.' | translate}}</div>
+      </div>
+
+      <label class="item item-input">
+        <input name = 'confirmPassword' type="password" placeholder="{{'Confirm Password' | translate}}" ng-model="user.confirmPassword" autocapitalize='off' ng-minlength='6' required matches='user.password'>
+      </label>
+      <div ng-messages="signUpForm.confirmPassword.$error" ng-show="signUpForm.confirmPassword.$invalid && signUpForm.confirmPassword.$touched " style='color:maroon'>
+        <div ng-message="required">{{"Sorry, can't let you in without a password." | translate}}</div>
+        <div ng-message="minlength">{{'At least 6 characters required.' | translate}}</div>
+        <div ng-message='matches'>{{'The Passwords do not match.' | translate}}</div>
+      </div>   
+    </div>
+
+
+    <div class='padding'>
+      <button type='submit' class="button button-block button-calm">
+          {{'SignUp' | translate}}
+      </button>
+    </div>
+   </form>
+  </ion-content>
+</ion-modal-view>

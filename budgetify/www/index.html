@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang='{{lang}}' ng-app = "myApp">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Budgetify</title>
+    <link rel="manifest" href="manifest.json">
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link rel="stylesheet" href="lib/nvd3/build/nv.d3.css">
+    <link href='lib/angular-loading-bar/build/loading-bar.css' rel='stylesheet'>
+    <link href="css/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+
+  <body class='ng-cloak' ng-controller="audioCtrl">
+          <ion-side-menus enable-menu-with-back-views="true">
+            <ion-side-menu-content>
+              <ion-nav-bar class="bar-calm ng-cloak">
+                <ion-nav-buttons>
+
+                <a native-transitions ui-sref='list' class='navbar button button-icon ion-ios-list-outline'
+                ng-readonly="expression">
+                </a>
+
+                <a native-transitions ui-sref='chart' class='navbar button button-icon ion-pie-graph'>
+                </a>
+
+                <a native-transitions ui-sref='record' class='navbar button button-icon plus ion-plus-circled' 
+                ng-click="setRecordName('income')">
+                </a>
+
+                <a native-transitions ui-sref='record' class='navbar button button-assertive button-icon ion-minus-circled minus' ng-click="setRecordName('expenses')">
+                </a>
+
+                <a native-transitions ui-sref='calendar' class = 'button button-icon ion-calendar'>
+                </a>
+
+                <a class='navbar button button-icon sync'>
+                  <i class='material-icons' ng-if="syncStatus.status === 'syncing'">sync</i>
+                  <i class='material-icons' ng-if="syncStatus.status === 'stopped'">sync_disabled</i>
+                  <i class='material-icons' ng-if="syncStatus.status === 'offline'">signal_wifi_off</i>
+                  <i class='material-icons' ng-if="syncStatus.status === 'error'">sync_problem</i>
+                </a>
+
+                <a menu-toggle='right' class='navbar button button-icon ion-navicon'></a>
+
+              </ion-nav-buttons>
+            </ion-nav-bar>
+
+
+            <ion-nav-view animation="slide-left-right">
+              <div id="loading-bar-container"></div>
+            </ion-nav-view>
+
+          </ion-side-menu-content>
+            <ion-side-menu side='right'>
+              <ion-header-bar>
+                <a class='button button-icon user' ng-if='superlogin.authenticated'>
+                    <i class = "icon ion-person"></i>
+                    {{superlogin.session.user_id}}
+                </a>
+             </ion-header-bar>
+              <ion-content>
+                <div class='list'>
+                  <label class = 'item item-input item-select'>
+                    <div class = 'input-label' style='font-size: 12px'>
+                      {{'language' | translate}}:
+                    </div>
+                     <select ng-model="locale" ng-options="key as value | translate for (key, value) in locales" ng-change="changeLocale(locale)">
+                     </select>
+                  </label>
+
+                   <label class = "item item-input item-select">
+                      <div class = "input-label" style = 'font-size: 0.7em'>
+                           {{'select_month' | translate}}:
+                       </div>
+                        <select ng-options='month.monthname | translate for month in monthsList' ng-model='firstMonth' ng-change = 'monthSelected(firstMonth)'>
+                       </select> 
+                    </label>
+
+                   <label class = "item item-input item-select">
+                      <div class = "input-label" style = 'font-size: 0.7em'>
+                           {{'compare_with_month' | translate}}:
+                       </div> 
+                        <select ng-options='month.monthname | translate for month in monthsList' ng-model='secondMonth' ng-change = 'comparedMonth(firstMonth, secondMonth)' class='selectbox'>
+                       </select>
+                    </label>
+
+
+                    <label class = "item item-input item-select">
+                      <div class = "input-label" style = 'font-size: 0.7em'>
+                           {{'compare_categories' | translate}}:
+                       </div>
+                       <select ng-model="selectedCategory" ng-options = 'cat.name | translate for cat in categoryList'
+                          ng-change = 'compareCategory(selectedCategory)'>
+                       </select>
+                    </label>
+
+                    <div ng-if='!superlogin.authenticated' class='item item-button-right' style='font-size: 12px'>
+                       {{'Login' | translate}}:
+                      <a ui-sref='login' class='button btn-positive button-icon ion-log-in'></a>    
+                    </div>
+
+                    <div ng-if='superlogin.authenticated' class='item item-button-right' style='font-size: 12px'>
+                      {{'Logout' | translate}}:
+                      <button ng-click='logout()' class='button btn-positive button-icon ion-log-out'></button>    
+                    </div> 
+                </div>
+               </ion-content>
+              </ion-side-menu>
+            </ion-side-menus>
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src='js/ngCordova/dist/ng-cordova.js'></script>
+    <script src="cordova.js"></script>
+    <script src='lib/angular-messages/angular-messages.min.js'></script>
+    <script src='lib/pouchdb/dist/pouchdb.min.js'></script>
+    <script src='lib/ng-pouch-mirror/ng-pouch-mirror.js'></script>
+    <script src='lib/pouchdb/dist/pouchdb.memory.min.js'></script>
+    <script src='lib/pouchdb-quick-search/dist/pouchdb.quick-search.min.js'></script>
+    <script src='lib/angular-animate/angular-animate.min.js'></script>
+    <script src='lib/moment/min/moment.min.js'></script>
+    <script src='lib/moment/lang/en-gb.js'></script>
+    <script src='lib/moment/lang/pl.js'></script>
+    <script src='lib/moment/lang/mk.js'></script>
+    <script src='lib/d3/d3.js'></script>
+    <script src='lib/nvd3/build/nv.d3.min.js'></script>
+    <script src='lib/angular-nvd3/dist/angular-nvd3.min.js'></script>
+    <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src='lib/angular-translate/angular-translate.min.js'></script>
+    <script src='lib/angular-translate-loader-url/angular-translate-loader-url.js'></script>
+    <script src='lib/angular-translate-handler-log/angular-translate-handler-log.js'></script>
+    <script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+    <script src='lib/angular-translate-loader-partial/angular-translate-loader-partial.min.js'></script>
+    <script src='lib/angular-dynamic-locale/tmhDynamicLocale.min.js'></script>
+    <script src='lib/ngstorage/ngStorage.min.js'></script>
+    <script src='lib/ng-superlogin/ng-superlogin.min.js'></script>
+    <script src='lib/aes.js'></script>
+    <script src='lib/angular-cryptography/mdo-angular-cryptography.js'></script>
+    <script src='lib/angular-loading-bar/build/loading-bar.min.js'></script>
+    <script src='lib/ionic-native-transitions/dist/ionic-native-transitions.min.js'></script>
+    <script src='lib/lodash/dist/lodash.min.js'></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/constants/incomes.js"></script>
+    <script src="js/constants/expenses.js"></script>
+    <script src='js/services/services.js'></script>
+    <script src='js/filter/filters.js'></script>
+    <script src='js/directives/directives.js'></script>
+    <script src='js/controller/listController.js'></script>
+    <script src='js/controller/inputController.js'></script>
+    <script src ='js/controller/LoginCtrl.js'></script>
+    <script src='js/controller/calendarController.js'></script>
+    <script src='js/controller/audioCtrl.js'></script>
+    <script src='js/controller/chartCtrl.js'></script>
+    <script src='lib/cryptojslib/rollups/md5.js'></script>
+  </body>
+</html>

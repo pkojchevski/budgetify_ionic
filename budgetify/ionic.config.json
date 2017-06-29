@@ -1,0 +1,11 @@
+{
+  "name": "budgetify",
+  "app_id": "",
+   "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://cors.api.com/api"
+    }
+  ]
+}
+

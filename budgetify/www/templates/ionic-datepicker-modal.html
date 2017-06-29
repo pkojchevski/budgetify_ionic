@@ -1,0 +1,71 @@
+<ion-modal-view class="ionic_datepicker_modal">
+  <ion-header-bar class="header">
+    <h1 class="title" animate-model-change model="{{selectedDate}}">{{selectedDate}}</h1>
+    <button class = 'button button-assertive button-icon ion-close-circled' ng-click='closeIonicDatePickerModal()'></button>
+  </ion-header-bar>
+  <ion-content class="ionic_datepicker_modal_content">
+      <div class="row text-center">
+        <div class="col col-10" ng-click="prevMonth()">
+          <button class="button-positive button-icon ion-chevron-left"></button>
+        </div>
+        <div class="col col-80 text-center">
+          <div class="row select_section">
+            <div class="col col-50">
+              <label class="item item-input item-select month_select">
+                <span class="input-label">&nbsp;</span>
+                <select ng-model="$root.selection.month" ng-change="monthChanged($root.selection.month)">
+                  <option ng-repeat="month in monthsList_EN track by $index" ng-selected="month == $root.selection.month" value="{{month}}">
+                    {{month | translate}}
+                  </option>
+                </select>
+              </label>
+            </div>
+            <div class="col col-50">
+              <label class="item item-input item-select year_select">
+                <span class="input-label">&nbsp;</span>
+               <select ng-model="$root.selection.year" ng-change="yearChanged($root.selection.year)">
+                  <option ng-repeat="year in $root.yearsList" ng-selected="year == $root.selection.year" value="{{year}}">
+                    {{year}}
+                  </option>
+                </select>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col col-10" ng-click="nextMonth()">
+          <button class="button-positive button-icon ion-chevron-right"></button>
+        </div>
+      </div>
+
+      <div class="calendar_grid">
+
+        <div class="row padding-top weeks_row">
+          <div class="col text-center font_bold"
+               ng-repeat="weekName in $root.weeksList track by $index" ng-model="weekName">{{weekName | translate}}</div>
+        </div>
+
+          <div class="row text-center dates" ng-repeat="row in rows track by $index">
+
+            <div class='col col_week' ng-click="$root.selection.week = $root.weekList[row/7];setweek()"> 
+                 {{weekList[row/7]}}
+            </div>
+
+            <div class="col col_date" ng-repeat="col in $root.cols track by $index"
+                 ng-class="{'today' : dayList[row + $index] == today && $root.current.month === $root.selection.month,
+                 'day':$root.dayList[row+$index] == $root.selection.day}"
+                 ng-click="$root.selection.day = $root.dayList[row+$index];setday()">
+                    {{$root.dayList[row + col]}}
+            </div>
+          </div>
+        </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar class="footer">
+    <div class='button-bar center'>
+      <a class="button button-clear" ng-click="btntoday()">{{'today'|translate}}</a>
+      <a class="button button-clear" ng-click="btnthisweek()">{{'thisweek'|translate}}</a>
+      <a class="button button-clear" ng-click="btnthismonth()">{{'thismonth'|translate}}</a>
+      <a class="button button-clear hvr-grow" ng-click="btnthisyear()">{{'thisyear'|translate}}</a>
+    </div>
+  </ion-footer-bar>
+</ion-modal-view>

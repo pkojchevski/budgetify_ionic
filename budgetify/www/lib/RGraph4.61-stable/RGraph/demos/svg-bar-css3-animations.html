@@ -1,0 +1,238 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <script src="../libraries/RGraph.svg.common.core.js" ></script>
+    <script src="../libraries/RGraph.svg.bar.js" ></script>
+    
+    <link rel="stylesheet" href="../css/animations.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="demos.css" type="text/css" media="screen" />
+    
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="description" content="A demonstration of how you can add CSS3 animations to your charts" />
+    
+    <title>RGraph: demo: CSS3 animations</title>
+</head>
+<body>
+
+
+
+    <h1>An SVG chart using CSS3 animations</h1>
+
+    <div id="chart-container" style="width: 600px; height: 250px; display: inline-block"></div><br />
+
+    <select id="animation_selector" onchange="selectAnimation(this.value)" style="font-size: 24pt; padding: 5px;">
+        
+        <option selected>Select effect...</option>
+        
+        <option>flash</option>
+        <option>bounce</option>
+        <option>shake</option>
+        <option>tada</option>
+        <option>swing</option>
+        <option>wobble</option>
+        <option>wiggle</option>
+        <option>pulse</option>
+        <option>flip</option>
+        <option>flipInX</option>
+        <option>flipOutX</option>
+        <option>flipInY</option>
+        <option>flipOutY</option>
+        
+        <option></option>
+
+        <option>fadeIn</option>
+        <option>fadeInUp</option>
+        <option>fadeInDown</option>
+        <option>fadeInLeft</option>
+        <option>fadeInRight</option>
+        <option>fadeInUpBig</option>
+        <option>fadeInDownBig</option>
+        <option>fadeInLeftBig</option>
+        <option>fadeInRightBig</option>
+        
+        <option></option>
+
+        <option>fadeOut</option>
+        <option>fadeOutUp</option>
+        <option>fadeOutDown</option>
+        <option>fadeOutLeft</option>
+        <option>fadeOutRight</option>
+        <option>fadeOutUpBig</option>
+        <option>fadeOutDownBig</option>
+        <option>fadeOutLeftBig</option>
+        <option>fadeOutRightBig</option>
+        
+        <option></option>
+
+        <option>bounceIn</option>
+        <option>bounceInDown</option>
+        <option>bounceInUp</option>
+        <option>bounceInLeft</option>
+        <option>bounceInRight</option>
+
+        <option></option>
+    
+        <option>bounceOut</option>
+        <option>bounceOutDown</option>
+        <option>bounceOutUp</option>
+        <option>bounceOutLeft</option>
+        <option>bounceOutRight</option>
+
+        <option></option>
+    
+        <option>rotateIn</option>
+        <option>rotateInDownLeft</option>
+        <option>rotateInDownRight</option>
+        <option>rotateInUpLeft</option>
+        <option>rotateInUpRight</option>
+
+        <option></option>
+
+        <option>rotateOut</option>
+        <option>rotateOutDownLeft</option>
+        <option>rotateOutDownRight</option>
+        <option>rotateOutUpLeft</option>
+        <option>rotateOutUpRight</option>
+
+        <option></option>
+
+        <option>lightSpeedIn</option>
+        <option>lightSpeedOut</option>
+
+        <option></option>
+
+        <option>hinge</option>
+        <option>rollIn</option>
+        <option>rollOut</option>
+        <option>expand</option>
+        <option>contract</option>
+    </select>
+    
+        <div id="fb-root"></div>
+    <script>
+        function loadFB (d)
+        {
+            var js, fjs = document.getElementsByTagName('script')[0];
+            if (document.getElementById('facebook-jssdk')) {
+                return;
+            }
+            
+            js     = document.createElement('script');
+            js.id  = 'facebook-jssdk';
+            js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8";
+            
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+        
+        
+        setTimeout(loadFB, 1500);
+    </script>
+    
+    <style>
+        div#sharePopup {
+            display: inline-block;
+            color: white;
+            z-index: 2;
+            min-width: 575px;
+            height: 40px;
+            margin-left: 25px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            box-shadow: 1px -1px 2px #aaa;
+            background-color: rgba(0,0,0,0.75);
+            text-align: center;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+    
+        div#sharePopup span#label {
+            position: relative;
+            top: 5px;
+        }
+        
+        div#sharePopup div.fb-like {
+            text-align: center;
+            display: inline-block;
+            position: relative;
+            top: 4px;
+        }
+    </style>
+    
+    <div id="sharePopup">
+        <span id="label">If you like RGraph please share it:</span>
+        <span style="display: inline-block; min-width: 225px">
+            <div class="fb-like" data-href="https://www.rgraph.net" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+            <a href="javascript: null" onclick="window.open('http://www.twitter.com/share?url=https://www.rgraph.net&text=HTML5%20charts%20for%20the%20web%20with%20@_RGraph%20', 'twitter-sharer-window', 'top=50,left=50,width=700,height=300')"><img src="/images/twitter-60x20.png"  style="transform: translate(10px, 8px); box-shadow: 1px 1px 1px gray" border="0" /></a>
+        </span>
+    </div>
+
+    <script>
+        var bar = new RGraph.SVG.Bar({
+            id: 'chart-container',
+            data: [4,5,3,8,4,9,6],
+            options: {
+                xaxisLabels: ['Mon','Tue','Wed','Thur','Fri','Sat','Sun'],
+                hmargin: 20
+            }
+        }).draw();
+
+
+        /**
+        * The swap function
+        */
+        function selectAnimation(effect)
+        {
+            var div = document.getElementById('chart-container');
+
+            div.className = '';
+            div.className = 'animated ' + effect;
+        }
+    </script>
+
+
+
+
+
+
+
+    <p></p>
+
+    This goes in the documents header:
+    <pre class="code">
+&lt;script src="RGraph.svg.common.core.js"&gt;&lt;/script&gt;
+&lt;script src="RGraph.svg.bar.js"&gt;&lt;/script&gt;
+</pre>
+    
+    Put this where you want the chart to show up:
+    <pre class="code">
+&lt;div id="chart-container" style="600px; height: 250px; display: inline-block"&gt;&lt;/div&gt;
+</pre>
+
+    This is the code that generates the chart:
+    <pre class="code">
+&lt;script&gt;
+    var bar = new RGraph.SVG.Bar({
+        id: 'chart-container',
+        data: [4,5,3,8,4,9,6],
+        options: {
+            xaxisLabels: ['Mon','Tue','Wed','Thur','Fri','Sat','Sun']
+        }
+    }).draw();
+
+
+    <span>// The swap function</span>
+    function selectAnimation(effect)
+    {
+        var div = document.getElementById('chart-container');
+
+        div.className = '';
+        div.className = 'animated ' + effect;
+    }
+&lt;/script&gt;
+</pre>
+
+
+    
+
+</body>
+</html>

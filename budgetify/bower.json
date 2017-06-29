@@ -1,0 +1,38 @@
+{
+  "name": "HelloIonic",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.3.3"
+  },
+  "dependencies": {
+    "angular-resource": "1.5.3",
+    "angular-audio": "^1.7.3",
+    "moment": "2.7.0",
+    "d3": "^4.7.3",
+    "angular-nvd3": "^1.0.9",
+    "ngCordova": "^0.1.27-alpha",
+    "angular-bootstrap": "^2.5.0",
+    "angular-animate": "^1.6.3",
+    "ionic-datepicker": "^1.2.1",
+    "angular-translate": "^2.15.1",
+    "angular-translate-handler-log": "^2.15.1",
+    "angular-translate-loader-static-files": "^2.15.1",
+    "angular-dynamic-locale": "^0.1.32",
+    "ngstorage": "^0.3.11",
+    "angular-translate-loader-partial": "^2.15.1",
+    "angular-translate-loader-url": "^2.15.1",
+    "angular-moment": "^1.0.1",
+    "pouchdb": "^6.2.0",
+    "angular-material": "^1.1.4",
+    "ng-superlogin": "^0.2.2",
+    "ng-pouch-mirror": "^0.1.0",
+    "transform-pouch": "^1.1.3",
+    "angular-cryptography": "^1.0.1",
+    "angular-loading-bar": "^0.9.0",
+    "angular-messages": "1.5.3",
+    "pouchdb-find": "^0.10.5",
+    "pouchdb-quick-search": "^1.3.0",
+    "lodash": "^4.17.4",
+    "ionic-native-transitions": "shprink/ionic-native-transitions#^1.0.3"
+  }
+}

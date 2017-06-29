@@ -1,0 +1,3 @@
+- add currencies
+- choose week
+- add tooltip pn bar chart

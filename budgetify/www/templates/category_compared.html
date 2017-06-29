@@ -1,0 +1,21 @@
+<ion-modal-view>
+    <ion-header-bar class="header">
+     <h1 class = 'title'>{{'compare_categories' | translate}}: <img ng-src='{{selectedCategory.img}}' alt='' class='image' class='text-center'></h1> 
+<!--      <img ng-src='{{selectedCategory.img}}' alt='' class='image'/> -->
+      <button class = 'button button-assertive button-icon ion-close-circled' ng-click='closeCategoryModal()'></button>
+   </ion-header-bar>
+       <ion-content>
+       <ion-list class='list'>
+        <ion-item class="item" ng-repeat = 'clist in categoryComparison track by $index'>
+        <div class='row'>
+          <div class = 'col-25 text-center'>
+            {{::clist.month.substring(5, clist.month.split('').length) | translate}}
+          </div>
+          <div class = 'col-25 col-offset-50 text-center'>
+            {{::clist.value | currency}}
+          </div>
+        </div>
+        </ion-item>
+    </ion-list>
+   </ion-content>
+</ion-modal-view>

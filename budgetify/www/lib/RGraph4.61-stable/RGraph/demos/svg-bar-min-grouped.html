@@ -1,0 +1,272 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <link rel="stylesheet" href="demos.css" type="text/css" media="screen" />
+    
+    <script src="../libraries/RGraph.svg.common.core.js" ></script>
+    <script src="../libraries/RGraph.svg.bar.js" ></script>
+    
+    <title>RGraph demo: A page showing the various Y scale variations of the SVG Bar chart</title>
+
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="description" content="A page showing the various Y scale variations of the SVG Bar chart" />
+    
+</head>
+<body>
+
+
+
+    <h1>A page showing the various Y scale variations of the SVG Bar chart</h1>
+
+
+
+    <div id="chart-container1" style="width: 600px; height: 250px"></div>
+    <div id="chart-container2" style="width: 600px; height: 250px"></div>
+    <div id="chart-container3" style="width: 600px; height: 250px"></div>
+    <div id="chart-container4" style="width: 600px; height: 250px"></div>
+    <div id="chart-container5" style="width: 600px; height: 250px"></div>
+    <div id="chart-container6" style="width: 600px; height: 250px"></div>
+
+        <div id="fb-root"></div>
+    <script>
+        function loadFB (d)
+        {
+            var js, fjs = document.getElementsByTagName('script')[0];
+            if (document.getElementById('facebook-jssdk')) {
+                return;
+            }
+            
+            js     = document.createElement('script');
+            js.id  = 'facebook-jssdk';
+            js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8";
+            
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+        
+        
+        setTimeout(loadFB, 1500);
+    </script>
+    
+    <style>
+        div#sharePopup {
+            display: inline-block;
+            color: white;
+            z-index: 2;
+            min-width: 575px;
+            height: 40px;
+            margin-left: 25px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            box-shadow: 1px -1px 2px #aaa;
+            background-color: rgba(0,0,0,0.75);
+            text-align: center;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+    
+        div#sharePopup span#label {
+            position: relative;
+            top: 5px;
+        }
+        
+        div#sharePopup div.fb-like {
+            text-align: center;
+            display: inline-block;
+            position: relative;
+            top: 4px;
+        }
+    </style>
+    
+    <div id="sharePopup">
+        <span id="label">If you like RGraph please share it:</span>
+        <span style="display: inline-block; min-width: 225px">
+            <div class="fb-like" data-href="https://www.rgraph.net" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+            <a href="javascript: null" onclick="window.open('http://www.twitter.com/share?url=https://www.rgraph.net&text=HTML5%20charts%20for%20the%20web%20with%20@_RGraph%20', 'twitter-sharer-window', 'top=50,left=50,width=700,height=300')"><img src="/images/twitter-60x20.png"  style="transform: translate(10px, 8px); box-shadow: 1px 1px 1px gray" border="0" /></a>
+        </span>
+    </div>
+
+    <script>
+        bar = new RGraph.SVG.Bar({
+            id: 'chart-container1',
+            data: [[-5,-5],[-7,-7],[-9,-9],[-11,-11],[-13,-13],[-15,-15]],
+            options: {
+                xaxisLabels: ['Harry','Bill','Pete','Lou','Kev','Bob'],
+                title: 'Negative min and max',
+                yaxisMax: -5,
+                yaxisMin: -15,
+                gutterLeft: 50
+            }
+        }).draw();
+
+        bar = new RGraph.SVG.Bar({
+            id: 'chart-container2',
+            data: [[0,0],[1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7],[8,8],[9,9]],
+            options: {
+                xaxisLabels: ['Harry','Bill','Pete','Lou','Kev','Bob','Masy','Olga','Gile','Jill'],
+                title: 'Zero min and positive max',
+                gutterLeft: 50,
+                yaxisMin: 0,
+                yaxisMax: 10
+            }
+        }).draw();
+
+        bar = new RGraph.SVG.Bar({
+            id: 'chart-container3',
+            data: [[10,10],[9,9],[8,8],[7,7],[6,6],[5,5],[4,4],[3,3],[2,2],[1,1],[0,0],[-1,-1],[-2,-2],[-3,-3],[-4,-4],[-5,-5],[-6,-6],[-7,-7],[-8,-8],[-9,-9],[-10,-10],],
+            options: {
+                xaxisLabels: ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U'],
+                title: 'Negative min and positive max',
+                gutterLeft: 50,
+                yaxisMin: 'mirror'
+            }
+        }).draw();
+
+        bar = new RGraph.SVG.Bar({
+            id: 'chart-container4',
+            data: [5,6,7,8,9,10],
+            data: [[5,5],[6,6],[7,7],[8,8],[9,9],[10,10]],
+            options: {
+                xaxisLabels: ['A','B','C','D','E','F'],
+                title: 'Positive min and positive max',
+                gutterLeft: 50,
+                yaxisMin:5,
+                yaxisMax: 10
+            }
+        }).draw();
+
+        bar = new RGraph.SVG.Bar({
+            id: 'chart-container5',
+            data: [[-9,-1],[-1,-2],[-6,-3],[-7,-4]],
+            options: {
+                xaxisLabels: ['A','B','C','D'],
+                title: 'Zero mac and negative min',
+                gutterLeft: 50,
+                yaxisMin:-10,
+                yaxisMax: 0
+            }
+        }).draw();
+
+        bar = new RGraph.SVG.Bar({
+            id: 'chart-container6',
+            data: [[9,-10],[1,2],[6,13],[17,14],[-10,-8]],
+            options: {
+                xaxisLabels: ['A','B','C','D', 'E'],
+                title: 'Negative min, poaitive max, offset axis',
+                gutterLeft: 50,
+                yaxisMin:-10,
+                yaxisMax: 40
+            }
+        }).draw();
+    </script>
+
+
+
+
+
+
+
+    <p></p>
+
+    This goes in the documents header:
+    <pre class="code">
+&lt;script src="RGraph.svg.common.core.js"&gt;&lt;/script&gt;
+&lt;script src="RGraph.svg.bar.js"&gt;&lt;/script&gt;
+</pre>
+    
+    Put this where you want the chart to show up:
+    <pre class="code">
+&lt;div style="width: 600px; height: 250px" id="chart-container1"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div style="width: 600px; height: 250px" id="chart-container2"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div style="width: 600px; height: 250px" id="chart-container3"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div style="width: 600px; height: 250px" id="chart-container4"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div style="width: 600px; height: 250px" id="chart-container5"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div style="width: 600px; height: 250px" id="chart-container6"&gt;&lt;/div&gt;&lt;/div&gt;
+</pre>
+
+    This is the code that generates the chart:
+    <pre class="code">
+&lt;script&gt;
+    bar = new RGraph.SVG.Bar({
+        id: 'chart-container1',
+        data: [[-5,-5],[-7,-7],[-9,-9],[-11,-11],[-13,-13],[-15,-15]],
+        options: {
+            xaxisLabels: ['Harry','Bill','Pete','Lou','Kev','Bob'],
+            title: 'Negative min and max',
+            yaxisMax: -5,
+            yaxisMin: -15,
+            gutterLeft: 50
+        }
+    }).draw();
+
+    bar = new RGraph.SVG.Bar({
+        id: 'chart-container2',
+        data: [[0,0],[1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7],[8,8],[9,9]],
+        options: {
+            xaxisLabels: ['Harry','Bill','Pete','Lou','Kev','Bob','Masy','Olga','Gile','Jill'],
+            title: 'Zero min and positive max',
+            gutterLeft: 50,
+            yaxisMin: 0,
+            yaxisMax: 10
+        }
+    }).draw();
+
+    bar = new RGraph.SVG.Bar({
+        id: 'chart-container3',
+        data: [[10,10],[9,9],[8,8],[7,7],[6,6],[5,5],[4,4],[3,3],[2,2],[1,1],[0,0],[-1,-1],[-2,-2],[-3,-3],[-4,-4],[-5,-5],[-6,-6],[-7,-7],[-8,-8],[-9,-9],[-10,-10],],
+        options: {
+            xaxisLabels: ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U'],
+            title: 'Negative min and positive max',
+            gutterLeft: 50,
+            yaxisMin: 'mirror'
+        }
+    }).draw();
+
+    bar = new RGraph.SVG.Bar({
+        id: 'chart-container4',
+        data: [5,6,7,8,9,10],
+        data: [[5,5],[6,6],[7,7],[8,8],[9,9],[10,10]],
+        options: {
+            xaxisLabels: ['A','B','C','D','E','F'],
+            title: 'Positive min and positive max',
+            gutterLeft: 50,
+            yaxisMin:5,
+            yaxisMax: 10
+        }
+    }).draw();
+
+    bar = new RGraph.SVG.Bar({
+        id: 'chart-container5',
+        data: [[-9,-1],[-1,-2],[-6,-3],[-7,-4]],
+        options: {
+            xaxisLabels: ['A','B','C','D'],
+            title: 'Zero mac and negative min',
+            gutterLeft: 50,
+            yaxisMin:-10,
+            yaxisMax: 0
+        }
+    }).draw();
+
+    bar = new RGraph.SVG.Bar({
+        id: 'chart-container6',
+        data: [[9,-10],[1,2],[6,13],[17,14],[-10,-8]],
+        options: {
+            xaxisLabels: ['A','B','C','D', 'E'],
+            title: 'Negative min, poaitive max, offset axis',
+            gutterLeft: 50,
+            yaxisMin:-10,
+            yaxisMax: 40
+        }
+    }).draw();
+&lt;/script&gt;
+</pre>
+
+
+
+    
+
+    <p>
+        <a href="./#svg">&laquo; Back</a>
+    </p>
+
+</body>
+</html>

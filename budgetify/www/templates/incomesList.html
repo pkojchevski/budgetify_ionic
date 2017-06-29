@@ -1,0 +1,19 @@
+<ion-modal-view>
+    <ion-header-bar class="header">
+     <h1 class="title">{{'selectIncome' | translate}}</h1>
+      <button class = 'button button-assertive button-icon ion-close-circled' ng-click='closeModal()'></button>
+   </ion-header-bar>
+   <ion-content>
+    <ion-list>
+        <ion-item class="item item-avatar-left list-color" ng-repeat='income in incomes track by $index' >
+          <img class='image' src={{income.img}} ng-click="selection(income); closeModal()">
+          <div class='item-text-center'>
+          <span class='record-text' ng-click="selection(income); closeModal()">{{::income.name | translate}}</span>
+          </div> 
+        </ion-item>
+    </ion-list>
+   </ion-content>
+</ion-modal-view>
+
+
+
