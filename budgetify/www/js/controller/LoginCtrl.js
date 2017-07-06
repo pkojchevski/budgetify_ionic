@@ -3,14 +3,20 @@ angular.module("myApp.controllers").
  	function($rootScope, $scope, superlogin, $state, $http, $ionicModal, $log, $localStorage) {
 
 $scope.user = {};
-$scope.credentials= {};
+$scope.credentials = {};
 $scope.encryptionKey = {};
+
+$scope.clearForm = function(form) {
+	form.$pristine = true;
+}
 
 
  $scope.login = function(credentials) {
  	superlogin.login(credentials).then(function(response) {
  	  $localStorage.encryptionKey = CryptoJS.MD5(credentials.password).toString();
+	  $localStorage.logged = true;
       $state.go('list');
+	  $scope.clearForm(loginForm);
  	}, function(error){
  		if(error) {
  		  $scope.loginError = error.message;	

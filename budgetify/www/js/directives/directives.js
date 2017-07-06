@@ -74,7 +74,6 @@ directive('animateModelChange', ['$timeout', function($timeout) {
    	},
    	link:function(scope, elem, attr, model) {
    		model.$validators.matches = function(modelValue) {
-        console.log('modelValue:'+modelValue);
           if(model.$isEmpty(modelValue)) {
           	return true;
           }
@@ -85,4 +84,19 @@ directive('animateModelChange', ['$timeout', function($timeout) {
    		});
    	}
    }
-});
+})
+
+.directive('pkActivate', ['$rootScope', '$state',
+function($rootScope, $state) {
+	return {
+      link: function(scope, elem, attr) {
+        var oldEl, newEl;
+				 $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
+						oldEl = document.getElementsByClassName(from.name);
+						angular.element(oldEl).removeClass('mdi-dark');
+						newEl = document.getElementsByClassName(to.name);
+						angular.element(newEl).addClass('mdi-dark');
+        });
+	  }
+	}
+}]);

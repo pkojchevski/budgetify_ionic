@@ -7,7 +7,7 @@ angular.module("myApp.controllers")
 $rootScope.locale = $localStorage.locale || 'en-us';
 tmhDynamicLocale.set($rootScope.locale);
 $translate.use($rootScope.locale);
-//moment.lang($rootScope.locale);
+moment.lang($rootScope.locale);
 
 $rootScope.selectedDate = $rootScope.selectedDate || moment().lang($rootScope.locale).format('YYYY-MMM');
 
@@ -19,6 +19,8 @@ $scope.setRecordName = function(name) {
 
 $scope.logout = function() {
 	superlogin.logout();
+  $localStorage.encryptionKey = null;
+  $localStorage.logged = false;
 	$state.go('login');
 }
 

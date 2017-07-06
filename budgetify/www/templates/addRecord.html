@@ -3,7 +3,7 @@
   <h4 class='text-center'>{{selectedDate}}</h4>
       <div class='row'>
          <div class='col col-center text-center'>
-          <h4>{{recordName | translate}}:</h4> 
+          <h4>{{title | translate}}:</h4> 
           <img ng-class = "{'animated':animated, 'imgSelected':!animated}" 
             ng-src='{{selectedInput.img}}' alt=''/>
           <small>{{selectedInput.name | translate}}</small>
@@ -14,8 +14,9 @@
   <div class='col col-10'>
     <a class = 'button button-icon ion-calendar icon_calendar' ng-click='openDatePickerCalendar()'></a>
   </div>
+  &nbsp&nbsp
    <div class='col col-center col-80'>
-    <div class="list text-center">
+    <div class="text-center">
        <label class="item item-input text-center">
           <input type="text" value='{{result}}' ng-model='result' readonly>
        </label>
@@ -25,7 +26,7 @@
 
 <div class='row row-center'>
   <div class='col col-60 col-offset-20'>
-    <div class='list text-center'>
+    <div class='text-center'>
        <label class="item item-input text-center">
             <input type="text" value = '{{details}}' ng-model='details' name = 'details' 
             placeholder="{{'addDetails' | translate}}" autocapitalize='off'>

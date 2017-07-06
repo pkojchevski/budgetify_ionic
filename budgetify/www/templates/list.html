@@ -8,12 +8,12 @@
           <div class='item-text-center'>  
            <div class='record-text'>
              <div ng-click='openItem(l)'>{{::l.name | translate}}</div>
-             <div ng-show="period ==='day'" ng-click='openItem(l)'><h3>{{::l.details}}</h3></div>
+             <div ng-if="period ==='day'" ng-click='openItem(l)'><h3>{{::l.details}}</h3></div>
            </div>
            <div class='money-badge text-center'  ng-class="{'bg-green':l.income, 'bg-red':!l.income}" ng-click='openItem(l)'>
             <span class='money'>{{::l.value | nfcurrency}}</span>
            </div>
-            <a ng-show="period ==='day' || period === 'today'" class='button button-icon ion-trash-a
+            <a ng-if="period ==='day' || period === 'today'" class='button button-icon ion-trash-a
              delete-records' ng-click='deleteItem(l)'>
             </a>
           </div>  

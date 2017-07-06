@@ -16,7 +16,6 @@ if($rootScope.locale === 'pl-pl') {
   $scope.monthsList = MONTHS_LIST_PL;
 }
 
-
 $scope.monthChanged = function(month) {
   var monthNumber = monthNumber = $filter('findMonthIndex')(month)+1;
   $rootScope.selection.monthNumber = monthNumber;
@@ -76,9 +75,19 @@ $scope.setday = function() {
   $rootScope.selection.date = moment([$rootScope.selection.year, $rootScope.selection.monthNumber-1, $rootScope.selection.day]).format('YYYY-MM-DD');
   $rootScope.selectedDate = $rootScope.selection.date;
   $rootScope.period = 'day';
-  setDatesFromDay($rootScope.selection.date);
+  $scope.selection.month = moment($scope.selection.date).lang('en').format('MMMM');
+  var index = $scope.monthsList_EN.indexOf($scope.selection.month);
+  $rootScope.selection.month_locale = $scope.monthsList[index];
 }
 
+$rootScope.clicked = {
+  list:false,
+  chart:false,
+  plus:false,
+  minus:false,
+  calendar:true,
+  hamburger:false
+}
 
 $scope.setweek = function() { 
   $rootScope.selectedDate = $rootScope.selection.week;

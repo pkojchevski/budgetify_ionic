@@ -33,6 +33,7 @@
     "pouchdb-find": "^0.10.5",
     "pouchdb-quick-search": "^1.3.0",
     "lodash": "^4.17.4",
-    "ionic-native-transitions": "shprink/ionic-native-transitions#^1.0.3"
+    "ionic-native-transitions": "shprink/ionic-native-transitions#^1.0.3",
+    "mdi": "^1.9.33"
   }
 }

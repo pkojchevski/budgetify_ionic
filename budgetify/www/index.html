@@ -10,40 +10,66 @@
     <link rel="stylesheet" href="lib/nvd3/build/nv.d3.css">
     <link href='lib/angular-loading-bar/build/loading-bar.css' rel='stylesheet'>
     <link href="css/style.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+    <link href='lib/mdi/css/materialdesignicons.min.css' 
+       media="all" rel="stylesheet" type="text/css" />
   </head>
 
   <body class='ng-cloak' ng-controller="audioCtrl">
           <ion-side-menus enable-menu-with-back-views="true">
             <ion-side-menu-content>
-              <ion-nav-bar class="bar-calm ng-cloak">
-                <ion-nav-buttons>
-
-                <a native-transitions ui-sref='list' class='navbar button button-icon ion-ios-list-outline'
+              <ion-nav-bar class="bar-calm ng-cloak" pk-activate>
+                <ion-nav-buttons >
+                <!--<a native-transitions ui-sref='list' class='navbar button button-icon ion-ios-list-outline'
                 ng-readonly="expression">
+                </a>-->
+
+                <a native-transitions ui-sref='list' class='navbar button button-icon act'
+                ng-readonly="expression">
+                <i class='mdi mdi-format-list-bulleted mdi-24px mdi-dark list'>
+                </i>
                 </a>
 
-                <a native-transitions ui-sref='chart' class='navbar button button-icon ion-pie-graph'>
+                <!--<a native-transitions ui-sref='chart' class='navbar button button-icon ion-pie-graph'>
+                </a>-->
+                <a native-transitions ui-sref='chart' class='navbar button button-icon act'>
+                  <i class='mdi mdi-chart-pie mdi-24px chart'></i>
                 </a>
 
-                <a native-transitions ui-sref='record' class='navbar button button-icon plus ion-plus-circled' 
+                <!--<a native-transitions ui-sref='record' class='navbar button button-icon plus ion-plus-circled' 
                 ng-click="setRecordName('income')">
+                </a>-->
+                <a native-transitions ui-sref='incomeRecord' class='navbar button button-icon act' 
+                ng-click="setRecordName('income')">
+                <i class='mdi mdi-plus-circle mdi-24px incomeRecord'></i>
                 </a>
 
-                <a native-transitions ui-sref='record' class='navbar button button-assertive button-icon ion-minus-circled minus' ng-click="setRecordName('expenses')">
+                <!--<a native-transitions ui-sref='record' class='navbar button button-assertive button-icon ion-minus-circled minus' ng-click="setRecordName('expenses')">
+                </a>-->
+                <a native-transitions ui-sref='expensesRecord' class='navbar button button-icon act' 
+                ng-click="setRecordName('expenses')">
+                <i class="mdi mdi-minus-circle mdi-24px expensesRecord">
+                  </i> 
                 </a>
 
-                <a native-transitions ui-sref='calendar' class = 'button button-icon ion-calendar'>
+                <!--<a native-transitions ui-sref='calendar' class = 'button button-icon ion-calendar'>
+                </a>-->
+                <a native-transitions ui-sref='calendar' class = 'button button-icon act'>
+                  <i class="mdi mdi-calendar-blank mdi-24px calendar" ></i>
                 </a>
+
 
                 <a class='navbar button button-icon sync'>
-                  <i class='material-icons' ng-if="syncStatus.status === 'syncing'">sync</i>
-                  <i class='material-icons' ng-if="syncStatus.status === 'stopped'">sync_disabled</i>
-                  <i class='material-icons' ng-if="syncStatus.status === 'offline'">signal_wifi_off</i>
-                  <i class='material-icons' ng-if="syncStatus.status === 'error'">sync_problem</i>
+                  <i class='mdi mdi-sync mdi-24px' ng-if="syncStatus.status === 'syncing'"></i>
+                  <i class='mdi mdi-sync-off mdi-24px' ng-if="syncStatus.status === 'stopped'"></i>
+                  <i class='mdi mdi-wifi-off mdi-24px' ng-if="syncStatus.status === 'offline'"></i>
+                  <i class='mdi mdi-sync-alert mdi-24px' ng-if="syncStatus.status === 'error'"></i>
                 </a>
 
-                <a menu-toggle='right' class='navbar button button-icon ion-navicon'></a>
+                <a menu-toggle='right' class='navbar button button-icon act'>
+                  <i class="mdi mdi-hamburger mdi-24px">
+                  </i>
+                </a>
 
               </ion-nav-buttons>
             </ion-nav-bar>

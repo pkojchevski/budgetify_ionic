@@ -1,9 +1,10 @@
 angular.module("myApp.controllers")
 .controller("inputController",["$ionicPlatform", "$rootScope", "$scope","$filter","$ionicModal", "$log", "$state", "$timeout",
   "shareObjects", "$cordovaMedia",'INCOMES','MONTHS_LIST_EN', 'MONTHS_LIST_MK', 'MONTHS_LIST_PL',
-  'EXPENSES', 'dbService', 'setDatesFromDay', 'setDatesfromWeek', function($ionicPlatform, $rootScope, $scope, $filter, $ionicModal, $log, $state,
+  'EXPENSES', 'dbService', 'setDatesFromDay', 'setDatesfromWeek', '$stateParams',
+  function($ionicPlatform, $rootScope, $scope, $filter, $ionicModal, $log, $state,
    $timeout, shareObjects, $cordovaMedia, INCOMES, MONTHS_LIST_EN, MONTHS_LIST_MK, MONTHS_LIST_PL,
-  EXPENSES, dbService, setDatesFromDay, setDatesfromWeek) {
+  EXPENSES, dbService, setDatesFromDay, setDatesfromWeek, $stateParams) {
 
 $scope.ok = false;
 $scope.ok1 = false;
@@ -12,13 +13,15 @@ $scope.edit = shareObjects.getEdit();
 
 $scope.monthsList = MONTHS_LIST_EN;
 
-// // play sound cash.wav
-$scope.play = function(sound) {
-  //console.log('play:'+sound);
-  var media = $cordovaMedia.newMedia(sound);
-  media.play();
-}
+$scope.title = $stateParams.title;
 
+// // play sound cash.wav
+// $scope.play = function(sound) {
+//   //console.log('play:'+sound);
+//   var media = $cordovaMedia.newMedia(sound);
+//   media.play();
+// }
+ 
 
 //get input from list controller
 $scope.selectedInput = shareObjects.getObject()[0] || null;
@@ -29,7 +32,6 @@ if($scope.selectedInput) {
    $scope.result = $scope.edit ? $scope.selectedInput.value : '';
    //if edit is true add details
    $scope.details = $scope.edit ? $scope.selectedInput.details : '';
-   console.log('result:'+JSON.stringify($scope.result));
 }
 
 //if there is input release update button 
@@ -41,6 +43,9 @@ if($scope.selectedInput) {
 $scope.$on('setRecordName', function(events, recordName) {
   $log.debug('on');
    $scope.recordName = recordName.recordName;
+   if($scope.recordName === 'incomes') {
+   } else {
+   }
 });
 
 $scope.incomes = INCOMES;
@@ -99,24 +104,24 @@ $scope.saveUpdateRecords = function(name, details) {
     record.value = $scope.result.toString();
     record.details = details;
   } else {
-  var record = {
-    _id:$rootScope.selection.date+$scope.selectedInput.name,
-     value:$scope.result,
-     month:'month'+moment($rootScope.selection.date).lang('en').format('MMMM'),
-     week:$rootScope.selection.week.toString(),
-     year:$rootScope.selection.year.toString(),
-     dayDate:$rootScope.selection.date.toString(),
-     img:$scope.selectedInput.img,
-     income:$scope.selectedInput.income,
-     name:$scope.selectedInput.name,
-     createdAt:new Date($rootScope.selection.date).toISOString(),
-     details:$scope.selectedInput.details ? $scope.selectedInput.details + '; '+ details : details
+    var record = {
+      _id:$rootScope.selection.date+$scope.selectedInput.name,
+      value:$scope.result,
+      month:'month'+moment($rootScope.selection.date).lang('en').format('MMMM'),
+      week:$rootScope.selection.week.toString(),
+      year:$rootScope.selection.year.toString(),
+      dayDate:$rootScope.selection.date.toString(),
+      img:$scope.selectedInput.img,
+      income:$scope.selectedInput.income,
+      name:$scope.selectedInput.name,
+      createdAt:new Date($rootScope.selection.date).toISOString(),
+      details:$scope.selectedInput.details ? $scope.selectedInput.details + '; '+ details : details
+    }
   }
-  }
-  $log.debug('record before update:'+JSON.stringify(record));
+  
   dbService.updateRecord(record);
   $scope.animated = true;
-        $log.debug('rootScope.AllRecords:'+JSON.stringify($rootScope.AllRecords));
+  
   $timeout(function() {
       $state.go('list',{},{reload:true});
   },300);
@@ -159,20 +164,16 @@ $scope.minus = function(result) {
 
 $scope.equal = function(result) {
   var suma = 0;
-  $log.debug('result:'+result);
-var arr = result.split(' ');
-$log.debug('suma:'+parseInt(result));
+  var arr = result.split(' ');
 for(var i = 0; i < arr.length/2; i ++) {
   if(arr[2*i+1] === '-') {
     arr[2*i+2] = '-' + arr[2*i+2];
   }
 }
-$log.debug('arr:'+arr);
 for(var i = 0; i < arr.length/2; i ++) {
   $log.debug('parseInt(arr[2*i]):'+parseInt(arr[2*i]));
     suma = suma + parseInt(arr[2*i]);
 }
-$log.debug('suma:'+suma);
 $scope.result = suma;
   $scope.ok = true;
 }
@@ -231,7 +232,6 @@ $scope.prevMonth = function() {
   $rootScope.selection.month = $scope.monthsList_EN[index];
   $rootScope.selection.monthNumber = (index === 12 ? 1 : index + 1);
   $scope.monthChanged($rootScope.selection.month, $rootScope.selection.monthNumber);
-   console.log('month:'+$rootScope.selection.month);
 }
 
 $scope.nextMonth = function() {
@@ -266,9 +266,17 @@ $scope.yearChanged = function(year) {
 $scope.setday = function() { 
   $rootScope.selection.date = moment([$rootScope.selection.year, $rootScope.selection.monthNumber-1, $rootScope.selection.day]).format('YYYY-MM-DD');
   $rootScope.selectedDate = $rootScope.selection.date;
-  console.log('selected.fate:'+$rootScope.selection.date);
   $rootScope.period = 'day';
-  setDatesFromDay($rootScope.selection.date);
+  $rootScope.selection.month = moment($rootScope.selection.date).month();
+  $log.info('month:'+$rootScope.selection.month);
+  // var index = $scope.monthsList.indexOf($rootScope.selection.month);
+  // $rootScope.selection.monthNumber = index + 1;
+  // $rootScope.selection.firstDayDate = moment([$rootScope.selection.year, $rootScope.selection.monthNumber-1]).startOf('month').format('ddd');
+  // $rootScope.selection.lastDate = moment([$rootScope.selection.year, $rootScope.selection.monthNumber-1]).startOf('month').format('DD');
+  // $scope.dayList = $filter('getDays')(1, $rootScope.selection.lastDay, $scope.weeksList, $rootScope.selection.firstDayDate);
+  // $rootScope.selection.firstWeek = moment([$rootScope.selection.year, $rootScope.selection.monthNumber-1]).startOf('month').isoWeek();
+  // $rootScope.selection.lastWeek = moment([$rootScope.selection.year, $rootScope.selection.monthNumber-1]).endOf('month').isoWeek();
+  // $scope.weekList = $filter('getWeeks')($rootScope.selection.firstWeek, $rootScope.selection.lastWeek);
 }
 
 

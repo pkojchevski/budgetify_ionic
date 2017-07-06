@@ -2,22 +2,21 @@ angular.module("myApp.controllers",[])
   .controller("listController", ["$rootScope","$scope","$filter","$interval", "$state","$window", 'shareObjects', 'barChart',
   'pieChart','$ionicModal', 'tmhDynamicLocale', '$locale','$localStorage',
   '$translate','$translatePartialLoader','$cordovaMedia', '$timeout','superlogin', '$ionicPlatform',
-  'PouchMirror','$timeout','dbService', '$crypto','cfpLoadingBar', '$log',
+  'PouchMirror','dbService', '$crypto','cfpLoadingBar', '$log',
    function($rootScope, $scope, $filter, $interval, $state, $window,
   shareObjects, barChart, pieChart, $ionicModal, tmhDynamicLocale, $locale,
   $localStorage, $translate, $translatePartialLoader, $cordovaMedia, $timeout, 
-  superlogin, $ionicPlatform, PouchMirror, $timeout, dbService, $crypto, cfpLoadingBar, $log) {
+  superlogin, $ionicPlatform, PouchMirror, dbService, $crypto, cfpLoadingBar, $log) {
 
-$rootScope.AllRecords = [];
+if(!$rootScope.AllRecords) {
+  $rootScope.AllRecords = [];
+}
+
+
 $scope.balanceCalc = false;
 $rootScope.SyncStatus = {};
 
-// if(!superlogin.authenticated()) {
-//   $state.go('login');
-// } else {
-
 dbService.startSequence();
- 
 
 $rootScope.selectedDate = $rootScope.selectedDate || moment().format('YYYY-MMM');
 
@@ -32,13 +31,22 @@ $rootScope.dayList = $filter('getDays')($rootScope.selection.firstDay, $rootScop
 $rootScope.yearsList = $filter('getYears')(1900, 2100);   
 
 
+//follow changes in db
+dbService.forChange($rootScope.AllRecords);
+
+//run this function at the begining
 function updateRecords() {
+  //$log.info('updateRecords');
   if(typeof $rootScope.period === 'undefined') {
     getData('month', $rootScope.selectedDate);
    } else {
    getData($rootScope.period, $rootScope.selectedDate);
   }
 }
+
+
+$scope.called = false;
+
 
 $scope.$on('$destroy', function() {
    if($scope.changes) {
@@ -49,7 +57,6 @@ $scope.$on('$destroy', function() {
 $scope.ready = true;
 
 $rootScope.$on('pm:update', function(event, localName, action, syncStatus) {
-  // console.log(localName + ' is now ' + action + '. Status: ' + syncStatus.status );
   $scope.$apply(function() {
     if(superlogin.authenticated()) {
       $rootScope.syncStatus = syncStatus;
@@ -58,39 +65,39 @@ $rootScope.$on('pm:update', function(event, localName, action, syncStatus) {
     }
       });
   if(action === 'active') {
+        $log.info('active');
     cfpLoadingBar.start();
         $scope.ready = true;
   }
+  
   if(action === 'ready') {
-    $scope.changes = dbService.changesListener(_.once(updateRecords));
+    // $scope.changes = dbService.changesListener(_.once(updateRecords));
+    $log.info('ready');
     cfpLoadingBar.complete();
     $scope.ready = false;
+    if(!$scope.called) {
+      updateRecords();
+      $scope.called = true;
+    }
   }
 
   if(action === 'paused') {
-    if($scope.ready) {
-     $scope.changes = dbService.changesListener(_.once(updateRecords));
+    // if($scope.ready) {
+    //  $scope.changes = dbService.changesListener(_.once(updateRecords));
+    // }
+    $log.info('paused');
+    if(!$scope.called) {
+      updateRecords();
+      $scope.called = true;
     }
    cfpLoadingBar.complete();
   }
 });
 
-    $rootScope.$on('pm:error', function(event, db, err, status) {
-            console.log('pm:error:'+status);
-      $scope.$apply(function() {
-        $rootScope.syncStatus = status;
-              console.log('pm:error:'+status);
-        if(err.error === 'unauthorized') {
-          superlogin.logout('Session expired');
-        }
-      });
-    });
-
     // Logout if we don't have credentials to access the database
   $rootScope.$on('pm:error', function(event, db, err, status) {
       $scope.$apply(function() {
         $rootScope.syncStatus = status;
-            console.log('syncStatus in pm:error:'+status);
         if(err.error === 'unauthorized') {
           superlogin.logout('Session expired');
         }
@@ -100,59 +107,81 @@ $rootScope.$on('pm:update', function(event, localName, action, syncStatus) {
 
 $scope.$on('$destroy', function() {
    if($scope.changes) {
-   // console.log('changes.cancel');
     $scope.changes.cancel();
    }
 });
-
-
 
 shareObjects.deleteObject();
 
 function getData(period, selected) {
   if(period === 'month') {
-    $scope.records =[];
+    $scope.records = [];
     $rootScope.selectedDate = selected || moment().format('YYYY-MMMM');
-     dbService.getRecordsForMonth('month'+moment(new Date($rootScope.selection.date).toISOString()).lang('en').format('MMMM')).
-     then(function(records) {
-      $rootScope.AllRecords = records;
-     $scope.records = $filter('arrangeRecords')($rootScope.AllRecords,'name');
-          }).catch(function(err) {
-            $log.debug.bind(console);
-          });
+    //$log.info('Allrecords3:'+JSON.stringify($rootScope.AllRecords));
+    //  dbService.getRecordsForMonth('month'+moment(new Date($rootScope.selection.date).toISOString()).lang('en').format('MMMM')).
+    //  then(function(records) {
+    //  $rootScope.AllRecords = records;
+    //  $scope.records = $filter('arrangeRecords')($rootScope.AllRecords,'name');
+    //       }).catch(function(err) {
+    //         $log.debug.bind(console);
+    //       });
+    var month = 'month'+ moment(new Date($rootScope.selection.date).toISOString()).lang('en').format('MMMM');
+    $scope.monthRecords = $rootScope.AllRecords.filter(function(item) {
+          return (item.month === month);
+    });
+    $scope.records = $filter('arrangeRecords')($scope.monthRecords, 'name');
+
 }
   if(period === 'day') {
-     $scope.records=[];
-     dbService.getRecordsForDay($rootScope.selection.date)
-     .then(function(records) {
-      $rootScope.AllRecords = records;
-     $scope.records = $filter('arrangeRecords')($rootScope.AllRecords,'name');
-     console.log('$scope.records:'+JSON.stringify($scope.records));
-     }).catch(function(err) {
-      $log.debug.bind(console);
-     });
+    $log.info('run');
+    $scope.records=[];
+    $scope.dayRecords = $rootScope.AllRecords.filter(function(item) {
+      return (item.dayDate === $rootScope.selection.date);
+    });
+    
+    $scope.records = $filter('arrangeRecords')($scope.dayRecords, 'name');
+    $log.info('records:'+JSON.stringify($scope.records));
+    //  dbService.getRecordsForDay($rootScope.selection.date)
+    //  .then(function(records) {
+    //   $rootScope.AllRecords = records;
+    //  $scope.records = $filter('arrangeRecords')($rootScope.AllRecords,'name');
+    //  }).catch(function(err) {
+    //   $log.debug.bind(console);
+    //  });
   }
+
   if(period==='week') {
     $scope.records=[];
-    dbService.getRecordsForWeek($rootScope.selection.week).then(function(records) {
-       $rootScope.AllRecords = records;
-       $scope.records = $filter('arrangeRecords')($rootScope.AllRecords,'name'); 
-     });
+    $log.info('Allrecords3:'+JSON.stringify($rootScope.AllRecords));
+    $log.info('week:'+$rootScope.selection.week);
+    $scope.weekRecords = $rootScope.AllRecords.filter(function(item) {
+      return (parseInt(item.week) === $rootScope.selection.week);
+    });
+    //$log.info('weekRecords:'+JSON.stringify($scope.weekRecords));
+    $scope.records = $filter('arrangeRecords')($scope.weekRecords, 'name');
+    // dbService.getRecordsForWeek($rootScope.selection.week).then(function(records) {
+    //    $rootScope.AllRecords = records;
+    //    $scope.records = $filter('arrangeRecords')($rootScope.AllRecords,'name'); 
+    //  });
   }
   if(period==='year') {
     $scope.records=[];
     $rootScope.selectedDate = selected || moment().format('YYYY-MMMM');
-     dbService.getRecordsForYear($rootScope.selection.year)
-     .then(function(records) {
-        $rootScope.AllRecords = records;
-     $scope.records = $filter('arrangeRecords')($scope.AllRecords,'name');
-      });
+    $scope.yearRecords = $rootScope.AllRecords.filter(function(item) {
+          return (item.year === $rootScope.selection.year);
+    });
+    $scope.records = $filter('arrangeRecords')($scope.yearRecords, 'name');
+    //  dbService.getRecordsForYear($rootScope.selection.year)
+    //  .then(function(records) {
+    //     $rootScope.AllRecords = records;
+    //     $log.info('records in year:'+JSON.stringify(records));
+    //  $scope.records = $filter('arrangeRecords')($scope.AllRecords,'name');
+    //   });
   };
 }
 
 $scope.$on('$destroy', function() {
    if($scope.changes) {
-   // console.log('changes.cancel');
     $scope.changes.cancel();
    }
 });
@@ -163,28 +192,31 @@ $scope.openItem = function(item) {
     var record = $filter('getRecordById')($rootScope.AllRecords, item.name, 
       new Date($rootScope.selection.date).toISOString());
      if(record.length !== 0) {
-      shareObjects.addObject(record);
-      shareObjects.setEditTrue();
-    } else {
-      shareObjects.addObject([item]);
-      shareObjects.setEditFalse();      
-    }
+        shareObjects.addObject(record);
+        shareObjects.setEditTrue();
+      } else {
+        shareObjects.addObject([item]);
+        shareObjects.setEditFalse();      
+      }
     if(item.income) {
-    $timeout(function() {
-      $rootScope.$broadcast('setRecordName', {recordName:'income'});
-    },100);
-    } else {
-    $timeout(function() {
-      $rootScope.$broadcast('setRecordName', {recordName:'expenses'});
-   },100);
-    }
-    $state.go('record',{},{reload:true});
+      $timeout(function() {
+        $rootScope.$broadcast('setRecordName', {recordName:'income'});
+        $state.go('incomeRecord',{title:'income'},{reload:true});
+      }, 100);
+      } else {
+      $timeout(function() {
+        $rootScope.$broadcast('setRecordName', {recordName:'expenses'});
+        $state.go('expensesRecord', {title:'expense'}, {reload:true});
+    }, 100);
+      }  
 }
 
 $scope.deleteItem = function(item) {
-  dbService.deleteRecord(item).then(function() {
-   //console.log('delete');
-    });
+     var index = $scope.records.indexOf(item);
+     $scope.records.splice(index, 1);
+     dbService.deleteRecord(item).then(function() {
+    
+     });
 } 
 
 // } //for superlogin

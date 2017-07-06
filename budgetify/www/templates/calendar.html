@@ -14,7 +14,8 @@
               <label class="item item-input item-select month_select">
                 <span class="input-label">&nbsp;</span> 
                   <select ng-model="selection.month" ng-change="monthChanged(selection.month)">
-                  <option ng-repeat="month in monthsList_EN track by $index" ng-selected = "month == $root.selection.month" value="{{month}}">
+                  <option ng-repeat="month in monthsList_EN track by $index" 
+                  ng-selected = "month == $root.selection.month" value="{{month}}">
                     {{month | translate}}
                   </option>
                 </select>
@@ -47,7 +48,8 @@
                  {{weekList[row/7]}}
             </div>
             <div class="col col_date" ng-repeat="col in cols track by $index"
-                 ng-class="{'today' : dayList[row + $index] == today && current.month === selection.month,
+                 ng-class="{'today' : dayList[row + $index] == today && 
+                 current.month === selection.month,
                  'day':dayList[row+$index] == selection.day}"
                  ng-click="selection.day = dayList[row+$index];setday()">
                     {{dayList[row + col]}}

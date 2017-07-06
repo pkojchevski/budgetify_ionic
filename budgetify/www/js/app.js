@@ -43,7 +43,7 @@ app.run(function($ionicPlatform) {
 });
 
 app.config(['$logProvider', function($logProvider) {
-   $logProvider.debugEnabled(false);
+   $logProvider.debugEnabled(true);
 }]);
 
 app.config(['$compileProvider', function($compileProvider) {
@@ -376,11 +376,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
       templateUrl:'templates/chart.html',
       controller:'chartCtrl',
     })
-    .state('record',
+    .state('expensesRecord',
     {
       cache:false,
-      url:'/record',
+      url:'/expensesRecord',
       templateUrl:'templates/addRecord.html',
+      params: {'title':'Expense'},
+      controller:'inputController',
+    })
+     .state('incomeRecord',
+    {
+      cache:false,
+      url:'/incomeRecord',
+      templateUrl:'templates/addRecord.html',
+      params: {'title':'Income'},
       controller:'inputController',
     })
     .state('calendar',

@@ -302,6 +302,19 @@ filter('arrangeRecords', function() {
     }
     return arr;
   }
+})
+
+.filter('mergeObjects', function() {
+  return function(arr1, arr2) {
+    var arr;
+    var obj = {};
+    for (var i = 0; i < arr1.length; i++) {
+      obj.value = arr1[i];
+      obj.name = arr2[i];
+      arr.push(obj);
+    }
+    return arr;
+  }
 });
 
 

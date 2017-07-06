@@ -98,9 +98,7 @@ services.factory('pieChart', function($translate) {
           labelType: 'percent',
           labelTreshold:0.01,
           labelSunbeamLayout:true,
-          valueFormat: function(d) {
-              return d3.format('%')(d);
-              },
+   
           duration: 500,
           useInteractiveGuideline: false,
           interactive: true,
@@ -121,8 +119,41 @@ services.factory('dbService', function($rootScope, $q, $crypto, superlogin, Pouc
   function startSequence() {
       var remoteDbUrl = superlogin.getDbUrl('budgetify');
       localDB = new PouchMirror('budgetify', remoteDbUrl);
-      localDB.setMaxListeners(30);
+     // localDB.setMaxListeners(30);
   }
+
+function forChange(records) {
+  localDB.changes({live: true, since: 'now', include_docs: true}).on('change', function(change) {
+    addRecords(records, change);
+  });
+} 
+
+function addRecords(records, change) {
+  var changedDoc, changedIndex;
+    if(records.length !== 0) {
+       records.forEach((doc, index) => {
+      if(doc._id === change.id){
+         changedDoc = doc;
+         changedIndex = index;
+    }
+});
+    }
+    if(change.deleted){
+            records.splice(changedIndex, 1);
+        } else {
+            //A document was updated - change it
+            if(changedDoc){
+              //$log.info('updateddoc:'+JSON.stringify(changedDoc));
+                records[changedIndex] = decrypted(change.doc);
+               // $log.info('records after update:'+JSON.stringify(records));
+            } 
+            //A document was added - add it
+            else {
+                records.push(decrypted(change.doc)); 
+            }
+    }
+  // $log.info('records:'+JSON.stringify(records));
+}
 
 function onDeleted(id) {
   var index = binarySearch(records, id);
@@ -209,7 +240,7 @@ function getRecordsForDay(day) {
 
 
 function reactToChanges() {
-  localDB.changes({live: true, since: 'now', include_docs: true}).on('change', function (change) {
+  localDB.changes({live: true, since: 'now', include_docs: true}).on('change', function(change) {
     if (change.deleted) {
       // change.id holds the deleted id
       onDeleted(change.id);
@@ -261,11 +292,32 @@ function encrypted(record) {
 
 function decrypted(record) {
   var rec = angular.copy(record);
-  rec.value = $crypto.decrypt(rec.value, $localStorage.encryptionKey);
-  rec.img = $crypto.decrypt(rec.img, $localStorage.encryptionKey);
-  rec.name = $crypto.decrypt(rec.name, $localStorage.encryptionKey);
-  rec.createdAt = $crypto.decrypt(rec.createdAt, $localStorage.encryptionKey);
+  try {
+     rec.value = $crypto.decrypt(rec.value, $localStorage.encryptionKey);
+  } catch(err) {
+    $log.info('error in value');
+  }
+    try {
+    rec.img = $crypto.decrypt(rec.img, $localStorage.encryptionKey);
+  } catch(err) {
+    $log.info('error in img');
+  }
+    try {
+    rec.name = $crypto.decrypt(rec.name, $localStorage.encryptionKey);
+  } catch(err) {
+    $log.info('error in name');
+  }
+    try {
+    rec.createdAt = $crypto.decrypt(rec.createdAt, $localStorage.encryptionKey);
+  } catch(err) {
+    $log.info('error in createdAt');
+  }
+        try {
   rec.details = record.details === '' ? '' : $crypto.decrypt(record.details,$localStorage.encryptionKey);
+  } catch(err) {
+    $log.info('error in details');
+  }
+
  return rec;
 }
 
@@ -304,18 +356,18 @@ function changesListener(onChange) {
   localDB.changes({live:true}).on('change', onChange);
 }
 
-
     return {
-      addRecord:addRecord,
-      updateRecord:updateRecord,
-      deleteRecord:deleteRecord,
-      startSequence:startSequence,
-      getRecordsForMonth:getRecordsForMonth,
-      getRecordsForYear:getRecordsForYear,
-      getRecordsForWeek:getRecordsForWeek,
-      getRecordsForDay:getRecordsForDay,
-      reactToChanges:reactToChanges,
-      changesListener:changesListener
+      addRecord: addRecord,
+      updateRecord: updateRecord,
+      deleteRecord: deleteRecord,
+      startSequence: startSequence,
+      getRecordsForMonth: getRecordsForMonth,
+      getRecordsForYear: getRecordsForYear,
+      getRecordsForWeek: getRecordsForWeek,
+      getRecordsForDay: getRecordsForDay,
+      reactToChanges: reactToChanges,
+      changesListener: changesListener,
+      forChange: forChange
     }
 });
 
