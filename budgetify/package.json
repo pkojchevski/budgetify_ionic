@@ -7,7 +7,8 @@
     "gulp-sass": "^2.0.4",
     "gulp-concat": "^2.2.0",
     "gulp-minify-css": "^0.3.0",
-    "gulp-rename": "^1.2.0"
+    "gulp-rename": "^1.2.0",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "@ionic/cli-plugin-gulp": "1.0.1",
@@ -24,5 +25,10 @@
     "cordova-plugin-splashscreen",
     "ionic-plugin-keyboard"
   ],
-  "cordovaPlatforms": []
+  "cordovaPlatforms": [],
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
